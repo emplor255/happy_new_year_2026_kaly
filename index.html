@@ -70,11 +70,12 @@
             aspect-ratio: 3 / 4;
             object-fit: cover;
             border-radius: 16px;
-            opacity: 0.5;
+            opacity: 0.75;
             filter: blur(0px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.18);
             border: 3px solid rgba(255,255,255,0.7);
             transform: rotate(var(--rot, 0deg));
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         /* Make them a little clearer on bigger screens */
@@ -451,9 +452,9 @@
             heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
             document.body.appendChild(heart);
             
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
+            // setTimeout(() => {
+            //     heart.remove();
+            // }, 6000);
         }
         
         setInterval(createHeart, 800);
