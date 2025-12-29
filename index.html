@@ -47,6 +47,48 @@
             }
         }
         
+        /* --- Side photo collage background --- */
+        .side-collage {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 180px;
+            pointer-events: none;
+            z-index: 0;              /* behind everything */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            padding: 18px 10px;
+        }
+
+        .side-collage.left { left: 0; }
+        .side-collage.right { right: 0; }
+
+        .side-photo {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            border-radius: 16px;
+            opacity: 0.25;
+            filter: blur(0px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+            border: 3px solid rgba(255,255,255,0.7);
+            transform: rotate(var(--rot, 0deg));
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Make them a little clearer on bigger screens */
+        @media (min-width: 900px) {
+            .side-photo { opacity: 0.3; }
+        }
+
+        /* On small screens: hide the collage so it doesn’t crowd */
+        @media (max-width: 750px) {
+            .side-collage { display: none; }
+        }
+
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -253,7 +295,11 @@
 <body>
     <audio autoplay loop>
         <source src="./images/Doi_52Hz.mp3" type="audio/mpeg">
-    </audio>  
+    </audio> 
+    
+    <div class="side-collage left" id="left-collage"></div>
+    <div class="side-collage right" id="right-collage"></div>
+
 
     <div class="container">
         <div class="header">
@@ -307,16 +353,7 @@
                 I will support you when the road is heavy, laugh with you when joy comes easily,
                 and share your tears when the world feels unkind.
                 We will face it all together—every step, every storm.
-                You will get your dream, and I will get your back
-            </p>
-            <p>
-                -------------------------------------------------------
-            </p>
-            <p>
-                While we're physically apart, you're always in my heart. 
-                These 4 years might seem long, but our love is stronger than any distance. Every day apart 
-                is one day closer to being together again. I'm working hard to build our future, and I carry 
-                your love with me every single day.
+                You will get your dream, and I will get your back.
             </p>
         </div>
         
@@ -353,6 +390,58 @@
     </div>
     
     <script>
+        // --- Random side collage photos ---
+        const photos = [
+        "./images/p1.jpg",
+        "./images/p2.jpg",
+        "./images/p3.jpg",
+        "./images/p4.jpg",
+        "./images/p5.jpg",
+        "./images/p6.jpg",
+        "./images/p7.jpg",
+        "./images/p8.jpg",
+        "./images/p9.jpg",
+        "./images/p10.jpg",
+        "./images/p11.jpg",
+        "./images/p12.jpg",
+        "./images/p13.jpg",
+        "./images/p14.jpg",
+        ];
+
+        function shuffle(arr) {
+        return arr
+            .map(v => ({ v, r: Math.random() }))
+            .sort((a, b) => a.r - b.r)
+            .map(o => o.v);
+        }
+
+        function fillCollage(containerId, count) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+
+        const picked = shuffle(photos).slice(0, Math.min(count, photos.length));
+
+        picked.forEach((src) => {
+            const img = document.createElement("img");
+            img.className = "side-photo";
+            img.src = src;
+
+            // random rotation like a cute scrapbook
+            const rot = (Math.random() * 10 - 5).toFixed(2); // -5deg to +5deg
+            img.style.setProperty("--rot", rot + "deg");
+
+            container.appendChild(img);
+        });
+        }
+
+        // adjust number of photos in each side
+        setInterval(() => {
+        fillCollage("left-collage", 7);
+        fillCollage("right-collage", 7);
+        }, 10000);
+
+
+
         // Create floating hearts
         function createHeart() {
             const heart = document.createElement('div');
