@@ -305,6 +305,22 @@
         <div class="header">
             <h1>Happy New Year 2026 My Love ❤️🎇</h1>
             <p>Wish 2026 Loves You Like I Do</p>
+            <button id="play-music" style="
+                padding: 10px 20px;
+                border-radius: 20px;
+                border: none;
+                background: #d63447;
+                color: white;
+                font-size: 1em;
+                cursor: pointer;
+            ">
+                ▶ Play our song
+            </button>
+
+            <audio id="bg-music" loop>
+                <source src="./images/Doi_52Hz.mp3" type="audio/mpeg">
+            </audio>
+
         </div>
         
         <div class="stats">
@@ -440,6 +456,9 @@
         fillCollage("right-collage", 7);
         }, 10000);
 
+        document.getElementById('play-music').addEventListener('click', () => {
+        document.getElementById('bg-music').play();
+        });
 
 
         // Create floating hearts
